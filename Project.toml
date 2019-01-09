@@ -1,0 +1,4 @@
+name = "MbedTLS"
+uuid = "3305bf92-67e5-11e8-014e-27eee38d7b4d"
+authors = ["Rene Donner <rene@contextflow.com>"]
+version = "0.6.6"
