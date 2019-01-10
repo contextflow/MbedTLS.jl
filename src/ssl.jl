@@ -485,7 +485,20 @@ function rng!(config::SSLConfig, rng::AbstractRNG)
     rng!(config, c_rng[], rng)
 end
 
-function ca_chain!(config::SSLConfig, chain=crt_parse_file(joinpath(dirname(@__FILE__), "../deps/cacert.pem")))
+function ca_chain!(config::SSLConfig, chain = nothing)
+    if chain == nothing
+        filename = joinpath(dirname(@__FILE__), "../deps/cacert.pem")
+        if isfile(filename)
+            chain = crt_parse_file(filename)
+        else
+            filename = "assets/MbedTLS.cacert.pem"
+            if isfile(filename)
+                chain = crt_parse_file(filename)
+            else
+                chain = crt_parse_file(joinpath(Sys.BINDIR,filename))
+            end
+        end
+    end
     config.chain = chain
     ccall((:mbedtls_ssl_conf_ca_chain, libmbedtls), Cvoid,
         (Ptr{Cvoid}, Ptr{Cvoid}, Ptr{Cvoid}),

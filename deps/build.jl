@@ -69,4 +69,22 @@ if any(!satisfied(p; verbose=verbose) for p in products) || forcebuild
     end
 end
 
-write_deps_file(joinpath(@__DIR__, "deps.jl"), products, verbose=verbose)
+depsname = joinpath(@__DIR__, "deps.jl")
+write_deps_file(depsname, products, verbose=verbose)
+mv(depsname, depsname*".orig", force = true)
+open(depsname, "w") do io
+    write(io, """
+        # using Libdl
+        # @show ENV["LD_LIBRARY_PATH"]
+        # @show length(Libdl.find_library("libmbedtls.so")) == 0
+        # if length(Libdl.find_library("libmbedtls.so")) == 0
+            const libmbedcrypto = "libmbedcrypto.so"
+            const libmbedtls = "libmbedtls.so"
+            const libmbedx509 = "libmbedx509.so"
+        # else
+            # include("deps.jl.orig")
+        # end
+    """)
+end
+
+
