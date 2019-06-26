@@ -37,10 +37,10 @@ export
 
 import Base: show
 
-# use hardcoded filenames instead of deps.jl
-libmbedtls = "libmbedtls.so"
-libmbedcrypto = "libmbedcrypto.so"
-libmbedx509 = "libmbedx509.so"
+const libmbedtls = "libmbedtls.so"
+const libmbedcrypto = "libmbedcrypto.so"
+const libmbedx509 = "libmbedx509.so"
+
 
 const MBED_SUCCESS = Cint(0)
 
