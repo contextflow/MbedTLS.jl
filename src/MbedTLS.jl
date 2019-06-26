@@ -37,12 +37,10 @@ export
 
 import Base: show
 
-# Load mbedtls libraries from our deps.jl
-const depsjl_path = joinpath(dirname(@__FILE__), "..", "deps", "deps.jl")
-if !isfile(depsjl_path)
-    error("MbedTLS not installed properly, run Pkg.build(\"MbedTLS\"), restart Julia and try again")
-end
-include(depsjl_path)
+# use hardcoded filenames instead of deps.jl
+libmbedtls = "libmbedtls.so"
+libmbedcrypto = "libmbedcrypto.so"
+libmbedx509 = "libmbedx509.so"
 
 const MBED_SUCCESS = Cint(0)
 
